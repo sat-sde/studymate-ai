@@ -1,0 +1,86 @@
+/* ============================================
+   Loading State Card
+   ============================================ */
+.loading-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2.25rem 2rem;
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.05),
+    0 8px 24px rgba(79, 70, 229, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  animation: fadeSlideIn 0.35s ease both;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dual Ring Spinner */
+.loading-spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-dual-ring {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #ede9fe;
+  border-top-color: #4f46e5;
+  border-right-color: #7c3aed;
+  border-radius: 50%;
+  animation: spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+/* Loading Typography */
+.loading-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 460px;
+}
+
+.loading-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.01em;
+}
+
+.loading-subtitle {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* Progress track at the bottom of the card */
+.loading-progress-track {
+  width: 100%;
+  height: 4px;
+  background: #f1f5f9;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 0.25rem;
+}
+
+.loading-progress-wave {
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  border-radius: 999px;
+  animation: loadingWave 1.4s infinite ease-in-out;
+}
+
+@keyframes loadingWave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}

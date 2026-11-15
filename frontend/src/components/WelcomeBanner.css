@@ -1,0 +1,95 @@
+.welcome-banner {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2rem 2rem;
+  margin-bottom: 2rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: fadeSlideIn 0.4s ease both;
+  box-shadow:
+    0 4px 24px rgba(79, 70, 229, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  width: 100%;
+}
+
+.welcome-title {
+  font-size: 1.7rem;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.4rem;
+  line-height: 1.25;
+}
+
+.welcome-subtitle {
+  font-size: 1rem;
+  opacity: 0.92;
+  line-height: 1.6;
+  max-width: 680px;
+}
+
+.welcome-subtitle strong {
+  font-weight: 700;
+  color: #e0e7ff;
+}
+
+.welcome-stats {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-pill);
+  padding: 0.45rem 0.95rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.2s ease;
+}
+
+.stat-chip:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+@media (max-width: 768px) {
+  .welcome-banner {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .welcome-title {
+    font-size: 1.45rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .welcome-banner {
+    padding: 1.4rem 1.15rem;
+    border-radius: var(--radius-md);
+  }
+
+  .welcome-title {
+    font-size: 1.25rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .stat-chip {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.75rem;
+  }
+}

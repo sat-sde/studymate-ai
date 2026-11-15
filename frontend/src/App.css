@@ -1,0 +1,190 @@
+/* ============================================
+   App Layout & Responsive Grid
+   ============================================ */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.main-content {
+  flex: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 5rem;
+  width: 100%;
+}
+
+/* ============================================
+   AI Generated Topic Banner Card
+   ============================================ */
+.topic-header-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.6rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  animation: fadeSlideIn 0.35s ease both;
+  transition: box-shadow 0.2s ease;
+}
+
+.topic-header-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.topic-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.topic-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+}
+
+.topic-heading {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.015em;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.topic-reset-btn {
+  background: var(--surface-subtle);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.65rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.topic-reset-btn:hover {
+  background: var(--border);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+/* ============================================
+   Shared Section Shell (Flashcards & Quiz)
+   ============================================ */
+.section {
+  margin-bottom: 2.25rem;
+  animation: fadeSlideIn 0.4s ease both;
+  width: 100%;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.section-badge {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.03em;
+}
+
+/* AI-generated topic label shown above the section card */
+.section-topic {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.section-topic strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.section-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s ease;
+  width: 100%;
+}
+
+.section-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   Responsive Breakpoints
+   ============================================ */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1.5rem 1.15rem 4.5rem;
+  }
+
+  .topic-header-card {
+    padding: 1.1rem 1.25rem;
+  }
+
+  .topic-heading {
+    font-size: 1.2rem;
+  }
+
+  .section-card {
+    padding: 1.35rem;
+    border-radius: var(--radius-md);
+  }
+}
+
+@media (max-width: 520px) {
+  .main-content {
+    padding: 1.15rem 0.85rem 4rem;
+  }
+
+  .topic-header-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+
+  .topic-reset-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .section-title {
+    font-size: 1.15rem;
+  }
+}
