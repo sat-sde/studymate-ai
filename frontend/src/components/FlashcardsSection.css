@@ -1,0 +1,175 @@
+/* ============================================
+   Flashcard Single-Deck Viewer Layout
+   ============================================ */
+.flashcards-deck-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0.25rem 0;
+  width: 100%;
+}
+
+/* Deck Header: Counter & Progress Dots */
+.deck-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 0.25rem;
+  width: 100%;
+}
+
+.deck-counter-badge {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-pill);
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.deck-counter-badge strong {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+/* Progress Dots (interactive & accessible) */
+.deck-progress-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.deck-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--border);
+  padding: 0;
+  border: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  min-height: 24px;
+  min-width: 12px;
+}
+
+.deck-dot:hover {
+  background: #cbd5e1;
+}
+
+.deck-dot.active {
+  width: 28px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+}
+
+/* Flashcard Stage */
+.flashcard-stage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Deck Controls Toolbar */
+.deck-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 620px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Navigation buttons (Prev / Next) — min 48px touch target */
+.deck-nav-btn {
+  background: var(--surface-subtle);
+  color: var(--text-main);
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  min-height: 48px;
+}
+
+.deck-nav-btn:hover:not(:disabled) {
+  background: var(--border);
+  color: #000000;
+  transform: translateY(-1px);
+}
+
+.deck-nav-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.deck-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: transparent;
+  background: #f1f5f9;
+}
+
+/* Flip Card Button (Center Accent Button) — min 48px touch target */
+.deck-flip-btn {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #ffffff;
+  font-size: 0.98rem;
+  font-weight: 800;
+  padding: 0.8rem 1.75rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 3px 12px rgba(79, 70, 229, 0.28);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  max-width: 230px;
+  min-height: 48px;
+}
+
+.deck-flip-btn:hover {
+  opacity: 0.94;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.36);
+}
+
+.deck-flip-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .deck-header {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .deck-controls {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .deck-flip-btn {
+    order: -1;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .deck-nav-btn {
+    flex: 1;
+    min-width: 0;
+  }
+}
