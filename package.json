@@ -10,7 +10,7 @@
     "dev:backend": "npm --prefix backend run dev",
     "dev:frontend": "npm --prefix frontend run dev",
     "test": "node tests/fullE2ERound.test.js",
-    "test:backend": "node backend/tests/runValidationTests.js && node backend/tests/failureScenarios.test.js",
+    "test:backend": "node backend/tests/runValidationTests.js && node backend/tests/failureScenarios.test.js && node backend/tests/mistralProvider.test.js && node backend/tests/groqProvider.test.js",
     "test:frontend": "node frontend/tests/flashcardInteractions.test.js && node frontend/tests/quizInteractions.test.js && node frontend/tests/frontendErrorHandling.test.js && node frontend/tests/raceConditionProtection.test.js && node frontend/tests/applicationStates.test.js",
     "build": "npm --prefix frontend run build"
   },

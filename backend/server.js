@@ -2,6 +2,7 @@
  * server.js — StudyMate AI Express Backend
  * ─────────────────────────────────────────────────────────────
  * Complete error handling and reliability:
+ * - Multi-provider support (Mistral AI & Google Gemini)
  * - Empty input validation
  * - Malformed JSON handling
  * - Missing/incomplete schema validation
@@ -14,7 +15,11 @@ require('dotenv').config()
 
 const express = require('express')
 const cors = require('cors')
-const { generateStudyMaterial, sanitizeMessage } = require('./utils/gemini')
+const {
+  generateStudyMaterial,
+  sanitizeMessage,
+  getActiveProvider,
+} = require('./utils/gemini')
 const { validateStudyMaterial } = require('./utils/validateStudyMaterial')
 
 const app = express()
@@ -26,10 +31,12 @@ app.use(express.json({ limit: '50kb' }))
 
 // Health check route
 app.get('/api/health', (req, res) => {
+  const active = getActiveProvider()
   res.json({
     status: 'OK',
     message: 'StudyMate AI backend is running!',
-    model: 'gemini-2.0-flash',
+    provider: active.name,
+    model: active.model,
     timestamp: new Date().toISOString(),
   })
 })
@@ -61,7 +68,7 @@ app.post('/api/generate', async (req, res) => {
   }
 
   try {
-    // 2. Call Gemini
+    // 2. Call AI Provider (Mistral / Gemini / Mock)
     const studyMaterial = await generateStudyMaterial(trimmedNotes)
 
     // 3. Validate AI response against schema
@@ -88,11 +95,20 @@ app.post('/api/generate', async (req, res) => {
     console.error(`❌ Handled error in /api/generate [${err.code || 'UNKNOWN'}]:`, safeError)
 
     // Missing API Key
-    if (err.code === 'MISSING_API_KEY' || safeError.includes('GEMINI_API_KEY')) {
+    if (err.code === 'MISSING_API_KEY' || safeError.includes('API_KEY is not set')) {
       return res.status(500).json({
         success: false,
         code: 'MISSING_API_KEY',
-        error: 'GEMINI_API_KEY is not set. Please add your Gemini API key to backend/.env and restart.',
+        error: 'No AI API key is configured. Please add GROQ_API_KEY, MISTRAL_API_KEY, or GEMINI_API_KEY in backend/.env.',
+      })
+    }
+
+    // Invalid API Key
+    if (err.code === 'INVALID_API_KEY' || safeError.toLowerCase().includes('invalid api key') || safeError.toLowerCase().includes('unauthorized')) {
+      return res.status(401).json({
+        success: false,
+        code: 'INVALID_API_KEY',
+        error: 'The provided AI API key is invalid or unauthorized. Please verify your API key in backend/.env.',
       })
     }
 
@@ -125,6 +141,7 @@ app.post('/api/generate', async (req, res) => {
 
     // Rate Limit / Quota Exceeded
     if (
+      err.code === 'RATE_LIMIT' ||
       safeError.includes('429') ||
       safeError.toLowerCase().includes('quota') ||
       safeError.includes('RESOURCE_EXHAUSTED')
@@ -132,7 +149,7 @@ app.post('/api/generate', async (req, res) => {
       return res.status(429).json({
         success: false,
         code: 'RATE_LIMIT',
-        error: 'Gemini API rate limit reached. Please wait a moment and click Retry.',
+        error: 'AI API rate limit reached. Please wait a moment and click Retry.',
       })
     }
 
@@ -144,6 +161,22 @@ app.post('/api/generate', async (req, res) => {
     })
   }
 })
+
+const path = require('path')
+const fs = require('fs')
+
+// Serve production built React frontend if dist exists
+const distPath = path.join(__dirname, '../frontend/dist')
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath))
+  // Fallback for Single Page Application client routing
+  app.use((req, res, next) => {
+    if (req.method === 'GET' && !req.path.startsWith('/api')) {
+      return res.sendFile(path.join(distPath, 'index.html'))
+    }
+    next()
+  })
+}
 
 // Global Express error handler (prevents any unhandled throw from crashing the server)
 app.use((err, req, res, next) => {
@@ -157,11 +190,21 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(PORT, () => {
-  const keyStatus =
-    process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'your_gemini_api_key_here'
-      ? '✅ configured'
-      : '⚠️  NOT SET (add GEMINI_API_KEY in backend/.env)'
+  const active = getActiveProvider()
+
+  let statusStr
+  if (active.provider === 'groq') {
+    statusStr = `✅ Groq AI (${active.model} - ultra-fast)`
+  } else if (active.provider === 'mistral') {
+    statusStr = `✅ Mistral AI (${active.model})`
+  } else if (active.provider === 'gemini') {
+    statusStr = `✅ Google Gemini (${active.model})`
+  } else if (active.provider === 'mock') {
+    statusStr = `🧪 Mock Provider (offline test mode)`
+  } else {
+    statusStr = `⚠️  NOT SET (add GROQ_API_KEY in backend/.env)`
+  }
 
   console.log(`\n🚀 Backend running at http://localhost:${PORT}`)
-  console.log(`🔑 GEMINI_API_KEY: ${keyStatus}\n`)
+  console.log(`🔑 AI Provider: ${statusStr}\n`)
 })

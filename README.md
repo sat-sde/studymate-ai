@@ -169,10 +169,15 @@ The backend requires an environment file to store secrets securely. The API key 
    ```bash
    cp .env.example .env
    ```
-3. Open `backend/.env` in your text editor and add your Gemini API key:
+3. Open `backend/.env` in your text editor and add your Mistral API key (or Gemini API key):
    ```env
-   # Get a free API key at https://aistudio.google.com/apikey
+   # Mistral AI — https://console.mistral.ai/api-keys/
+   MISTRAL_API_KEY=your_actual_mistral_api_key_here
+   MISTRAL_MODEL=mistral-small-latest
+
+   # Or Google Gemini — https://aistudio.google.com/apikey
    GEMINI_API_KEY=your_actual_gemini_api_key_here
+
    PORT=3001
    ```
 
@@ -202,11 +207,15 @@ npm run dev
 
 ---
 
-## 🤖 How Gemini AI Integration Works
+## 🤖 How AI Integration Works (Mistral AI & Google Gemini)
 
 1. **Client Submits Notes**: The user pastes study notes into the frontend textarea.
-2. **Backend Proxy (`POST /api/generate`)**: The frontend calls the Express backend, keeping the Gemini API key hidden from the client browser.
-3. **Structured Prompt Construction**: The backend builds a strict prompt instructing Gemini to act as an expert study assistant and return JSON matching the schema:
+2. **Backend Proxy (`POST /api/generate`)**: The frontend calls the Express backend, keeping the API keys (`MISTRAL_API_KEY` or `GEMINI_API_KEY`) strictly hidden from the client browser.
+3. **Multi-Provider Architecture**:
+   - **Mistral AI (Primary)**: Uses `mistral-small-latest` via Mistral's native endpoint with `response_format: { type: "json_object" }`.
+   - **Google Gemini (Alternative)**: Uses `gemini-2.0-flash` with `responseMimeType: "application/json"`.
+   - **Offline Mock**: Instant fallback for automated tests (`MOCK_AI_RESPONSE=true`).
+4. **Structured Prompt Construction**: The backend builds a strict prompt instructing the model to act as an expert study assistant and return JSON matching the schema:
    ```json
    {
      "title": "Topic title",
@@ -214,10 +223,10 @@ npm run dev
      "quiz": [{ "id": 1, "question": "...", "options": ["A", "B", "C", "D"], "correctAnswer": 0, "explanation": "..." }]
    }
    ```
-4. **JSON Mode**: Configured with `responseMimeType: "application/json"` and `temperature: 0.3` to ensure deterministic, valid JSON output.
-5. **Markdown Fence Stripping**: A utility function (`cleanJsonText`) strips any accidental ````json ```` code fences returned by the model.
-6. **25-Second Timeout**: If the AI does not respond within 25 seconds, the request times out safely with HTTP 504.
-7. **Secret Redaction**: Any logging functions sanitize output to ensure API keys (`AIza...`) are never leaked to logs.
+5. **JSON Mode & Low Temperature**: Configured with strict JSON response format and `temperature: 0.3` to ensure deterministic, valid JSON output.
+6. **Markdown Fence Stripping**: A utility function (`cleanJsonText`) strips any accidental ````json ```` code fences returned by the model.
+7. **25-Second Timeout**: If the AI does not respond within 25 seconds, the request times out safely with HTTP 504.
+8. **Secret Redaction**: Any logging functions sanitize output to ensure API keys (both `AIza...` and Mistral Bearer tokens) are never leaked to logs.
 
 ---
 
