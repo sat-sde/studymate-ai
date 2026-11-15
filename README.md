@@ -1,6 +1,8 @@
 # 📚 StudyMate AI
 
-> An intelligent, responsive study dashboard that transforms unstructured study notes into interactive, 3D flippable flashcards and self-paced multiple-choice quizzes powered by Google Gemini AI.
+> An intelligent, responsive study dashboard that transforms unstructured study notes into interactive, 3D flippable flashcards and self-paced multiple-choice quizzes powered by Groq, Mistral, and Google Gemini AI.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/sat-sde/studymate-ai)
 
 ---
 

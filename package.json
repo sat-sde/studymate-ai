@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "dev": "node scripts/start.js",
+    "postinstall": "npm run install:all",
     "install:all": "npm --prefix backend install && npm --prefix frontend install",
     "dev:backend": "npm --prefix backend run dev",
     "dev:frontend": "npm --prefix frontend run dev",
