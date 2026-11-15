@@ -4,7 +4,7 @@
   "description": "AI-Powered Study Assistant converting study notes into flashcards and interactive quizzes",
   "type": "module",
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "node backend/server.js",
     "dev": "node scripts/start.js",
     "postinstall": "npm run install:all",
     "install:all": "npm --prefix backend install && npm --prefix frontend install --include=dev",
@@ -13,7 +13,7 @@
     "test": "node tests/fullE2ERound.test.js",
     "test:backend": "node backend/tests/runValidationTests.js && node backend/tests/failureScenarios.test.js && node backend/tests/mistralProvider.test.js && node backend/tests/groqProvider.test.js",
     "test:frontend": "node frontend/tests/flashcardInteractions.test.js && node frontend/tests/quizInteractions.test.js && node frontend/tests/frontendErrorHandling.test.js && node frontend/tests/raceConditionProtection.test.js && node frontend/tests/applicationStates.test.js",
-    "build": "npm --prefix frontend run build"
+    "build": "npm run install:all && npm --prefix frontend run build"
   },
   "keywords": [
     "studymate",

@@ -3,8 +3,8 @@ services:
     name: studymate-ai
     runtime: node
     plan: free
-    buildCommand: npm --prefix backend install && npm --prefix frontend install --include=dev && npm --prefix frontend run build
-    startCommand: node backend/server.js
+    buildCommand: npm run build
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
