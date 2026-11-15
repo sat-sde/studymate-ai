@@ -1,0 +1,25 @@
+{
+  "name": "studymate-ai",
+  "version": "1.0.0",
+  "description": "AI-Powered Study Assistant converting study notes into flashcards and interactive quizzes",
+  "type": "module",
+  "scripts": {
+    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "test": "node tests/fullE2ERound.test.js",
+    "test:backend": "node backend/tests/runValidationTests.js && node backend/tests/failureScenarios.test.js",
+    "test:frontend": "node frontend/tests/flashcardInteractions.test.js && node frontend/tests/quizInteractions.test.js && node frontend/tests/frontendErrorHandling.test.js && node frontend/tests/raceConditionProtection.test.js && node frontend/tests/applicationStates.test.js",
+    "build": "npm --prefix frontend run build"
+  },
+  "keywords": [
+    "studymate",
+    "gemini",
+    "flashcards",
+    "quiz",
+    "edtech",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT"
+}
